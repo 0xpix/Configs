@@ -5,6 +5,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+
 def create_dir_if_not_exists(directory):
     """Create directory if it doesn't exist."""
     if not os.path.exists(directory):
@@ -35,7 +36,14 @@ def run_command(command, description):
 
 def setup_neovim():
     """Setup Neovim configuration."""
+    # Use nvim headless command to properly create the config directory and init.lua
+    run_command(
+        "nvim --headless -c 'call mkdir(stdpath(\"config\"), \"p\") | exe \"edit\" stdpath(\"config\") . \"/init.lua\" | write | quit'",
+        "Creating Neovim config directory and init.lua"
+    )
+
     nvim_config_dir = os.path.expanduser("~/.config/nvim")
+    # init.lua should already exist now, but we'll make sure the directory exists
     create_dir_if_not_exists(nvim_config_dir)
 
     # Assuming init.lua is in the current directory or specify path
