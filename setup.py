@@ -24,6 +24,17 @@ def copy_file(source, destination):
     print(f"Source file not found: {source}")
     return False
 
+def copy_directory(source, destination):
+    """Copy directory from source to destination."""
+    if os.path.exists(source):
+        print(f"Copying directory {source} to {destination}")
+        if os.path.exists(destination):
+            shutil.rmtree(destination)
+        shutil.copytree(source, destination)
+        return True
+    print(f"Source directory not found: {source}")
+    return False
+
 def run_command(command, description):
     """Run shell command and handle errors."""
     print(f"Running: {description}")
@@ -36,21 +47,25 @@ def run_command(command, description):
 
 def setup_neovim():
     """Setup Neovim configuration."""
-    # Use nvim headless command to properly create the config directory and init.lua
-    run_command(
-        "nvim --headless -c 'call mkdir(stdpath(\"config\"), \"p\") | exe \"edit\" stdpath(\"config\") . \"/init.lua\" | write | quit'",
-        "Creating Neovim config directory and init.lua"
-    )
-
     nvim_config_dir = os.path.expanduser("~/.config/nvim")
-    # init.lua should already exist now, but we'll make sure the directory exists
     create_dir_if_not_exists(nvim_config_dir)
 
-    # Assuming init.lua is in the current directory or specify path
-    init_lua_source = "./init.lua"  # Change this if your file is elsewhere
+    # Copy init.lua
+    init_lua_source = "./init.lua"
     init_lua_dest = os.path.join(nvim_config_dir, "init.lua")
+    init_copied = copy_file(init_lua_source, init_lua_dest)
 
-    return copy_file(init_lua_source, init_lua_dest)
+    # Copy Lua folder
+    lua_source_dir = "./lua"
+    lua_dest_dir = os.path.join(nvim_config_dir, "lua")
+    lua_copied = copy_directory(lua_source_dir, lua_dest_dir)
+
+    # Open Neovim to install plugins
+    if init_copied and lua_copied:
+        print("Opening Neovim to install plugins (close Neovim when finished)...")
+        run_command("nvim", "Installing Neovim plugins")
+
+    return init_copied and lua_copied
 
 def setup_vscode():
     """Setup VSCode configuration."""
