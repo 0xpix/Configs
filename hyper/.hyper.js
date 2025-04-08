@@ -8,7 +8,7 @@ module.exports = {
 
         // Font settings
         fontSize: 14,
-        fontFamily: '"Fira Code", "Cascadia Code", "JetBrains Mono", monospace',
+        fontFamily: 'Hasklug Nerd Font',
         fontWeight: 'normal',
         lineHeight: 1.2,
         letterSpacing: 0,
@@ -66,17 +66,15 @@ module.exports = {
         },
 
         // Plugin-specific settings
-        hyperBorder: {
-            borderColors: ['#fc1da7', '#fba506'],
-            borderWidth: '4px',
-            borderRadiusOuter: '8px',
-            borderRadiusInner: '6px',
-        },
-
         hyperTabs: {
             trafficButtons: true,
             tabIcons: true,
             tabIconsColored: true,
+        },
+        hyperline: {
+            plugins: [
+                'ip', 'cpu', 'network', 'memory', 'gitstatus', 'vibrancy'
+            ],
         },
     },
 
@@ -84,12 +82,12 @@ module.exports = {
     plugins: [
         // Visual enhancements
         "hyper-snazzy",              // Beautiful color scheme
-        "hyperborder",               // Add gradient border
 
         // Functionality
         "hyper-pane",                // Pane navigation and management
         "hyper-active-tab",          // Highlights active tab
         "hyper-font-ligatures",      // Enables font ligatures
+        "hyperline",                // Status line for terminal
     ],
 
     localPlugins: [],
