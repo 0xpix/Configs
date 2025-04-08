@@ -1,0 +1,204 @@
+
+#!/bin/bash
+
+# Colors for output
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+NC='\033[0m' # No Color
+
+# Function to create directory if it doesn't exist
+create_dir_if_not_exists() {
+    if [ ! -d "$1" ]; then
+        echo -e "${GREEN}Creating directory: $1${NC}"
+        mkdir -p "$1"
+        return 0
+    else
+        echo -e "${YELLOW}Directory already exists: $1${NC}"
+        return 0
+    fi
+}
+
+# Function to copy file
+copy_file() {
+    if [ -f "$1" ]; then
+        echo -e "${GREEN}Copying $1 to $2${NC}"
+        cp "$1" "$2"
+        return 0
+    else
+        echo -e "${RED}Source file not found: $1${NC}"
+        return 1
+    fi
+}
+
+# Function to copy directory
+copy_directory() {
+    if [ -d "$1" ]; then
+        echo -e "${GREEN}Copying directory $1 to $2${NC}"
+        if [ -d "$2" ]; then
+            rm -rf "$2"
+        fi
+        cp -r "$1" "$2"
+        return 0
+    else
+        echo -e "${RED}Source directory not found: $1${NC}"
+        return 1
+    fi
+}
+
+# Function to run command
+run_command() {
+    echo -e "${GREEN}Running: $2${NC}"
+    if eval "$1"; then
+        return 0
+    else
+        echo -e "${RED}Error running command: $1${NC}"
+        return 1
+    fi
+}
+
+# Setup Neovim configuration
+setup_neovim() {
+    nvim_config_dir="$HOME/.config/nvim"
+    create_dir_if_not_exists "$nvim_config_dir"
+
+    # Copy init.lua
+    init_lua_source="./neovim/init.lua"
+    init_lua_dest="$nvim_config_dir/init.lua"
+    copy_file "$init_lua_source" "$init_lua_dest"
+    init_copied=$?
+
+    # Copy Lua folder
+    lua_source_dir="./neovim//lua"
+    lua_dest_dir="$nvim_config_dir/lua"
+    copy_directory "$lua_source_dir" "$lua_dest_dir"
+    lua_copied=$?
+
+    # Open Neovim to install plugins
+    if [ $init_copied -eq 0 ] && [ $lua_copied -eq 0 ]; then
+        echo "Opening Neovim to install plugins (close Neovim when finished)..."
+        run_command "nvim" "Installing Neovim plugins"
+    fi
+
+    if [ $init_copied -eq 0 ] && [ $lua_copied -eq 0 ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+# Setup VSCode configuration
+setup_vscode() {
+    # VSCode settings location in Windows
+    vscode_settings_dir="/mnt/c/Users/ANNES/.vscode"
+    create_dir_if_not_exists "$vscode_settings_dir"
+
+    settings_source="./settings.json"
+    settings_dest="$vscode_settings_dir/settings.json"
+
+    copy_file "$settings_source" "$settings_dest"
+    return $?
+}
+
+# Setup Hyper configuration
+setup_hyper() {
+    # Hyper config location in Windows
+    hyper_config_dir="/mnt/c/Users/ANNES/.config/hyper"
+    create_dir_if_not_exists "$hyper_config_dir"
+
+    hyper_source="./.hyper.js"
+    hyper_dest="$hyper_config_dir/.hyper.js"
+
+    copy_file "$hyper_source" "$hyper_dest"
+    return $?
+}
+
+# Install Homebrew
+install_brew() {
+    if command -v brew >/dev/null 2>&1; then
+        echo -e "${YELLOW}Homebrew is already installed${NC}"
+        return 0
+    fi
+
+    run_command '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"' "Installing Homebrew"
+    return $?
+}
+
+# Install Neovim
+install_neovim() {
+    if command -v nvim >/dev/null 2>&1; then
+        echo -e "${YELLOW}Neovim is already installed${NC}"
+        return 0
+    fi
+
+    # Try apt first, then brew if apt fails
+    if run_command "sudo apt-get update && sudo apt-get install -y neovim" "Installing Neovim via apt"; then
+        return 0
+    fi
+
+    run_command "brew install neovim" "Installing Neovim via Homebrew"
+    return $?
+}
+
+# Install Oh My Zsh
+install_ohmyzsh() {
+    zsh_dir="$HOME/.oh-my-zsh"
+    if [ -d "$zsh_dir" ]; then
+        echo -e "${YELLOW}Oh My Zsh is already installed${NC}"
+        return 0
+    fi
+
+    run_command 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended' "Installing Oh My Zsh"
+    return $?
+}
+
+# Setup Zsh configuration
+setup_zsh() {
+    zshrc_source="./zshrc"
+    zshrc_dest="$HOME/.zshrc"
+
+    # Install zsh plugins
+    plugins_cmd="git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && \
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+
+    run_command "$plugins_cmd" "Installing Zsh plugins"
+    plugins_installed=$?
+
+    copy_file "$zshrc_source" "$zshrc_dest"
+    file_copied=$?
+
+    if [ $plugins_installed -eq 0 ] && [ $file_copied -eq 0 ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+# Main function
+main() {
+    echo -e "${GREEN}Starting WSL development environment setup...${NC}"
+
+    # Array of function names to run
+    tasks=("setup_neovim")
+
+    success_count=0
+    total=${#tasks[@]}
+
+    for task in "${tasks[@]}"; do
+        if $task; then
+            ((success_count++))
+        fi
+    done
+
+    echo -e "\n${GREEN}Setup completed: $success_count/$total tasks successful${NC}"
+
+    if [ $success_count -lt $total ]; then
+        echo -e "\n${RED}Some tasks failed. Check the output above for details.${NC}"
+        exit 1
+    fi
+
+    echo -e "\n${GREEN}Setup completed successfully! Please restart your terminal or run 'source ~/.zshrc'${NC}"
+}
+
+# Run main function
+main
