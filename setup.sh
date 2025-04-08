@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # Colors for output
@@ -33,7 +32,7 @@ copy_file() {
 
 # Function to copy directory
 copy_directory() {
-    if [ -d "$1" ]; then
+    if [ -d "$1$1" ]; then
         echo -e "${GREEN}Copying directory $1 to $2${NC}"
         if [ -d "$2" ]; then
             rm -rf "$2"
@@ -154,7 +153,7 @@ install_ohmyzsh() {
 
 # Setup Zsh configuration
 setup_zsh() {
-    zshrc_source="./zshrc"
+    zshrc_source="./.zshrc"
     zshrc_dest="$HOME/.zshrc"
 
     # Install zsh plugins
@@ -166,6 +165,11 @@ setup_zsh() {
 
     copy_file "$zshrc_source" "$zshrc_dest"
     file_copied=$?
+
+    # Convert .zshrc to Unix format
+    if [ $file_copied -eq 0 ]; then
+        run_command "dos2unix $zshrc_dest" "Converting .zshrc to Unix format"
+    fi
 
     if [ $plugins_installed -eq 0 ] && [ $file_copied -eq 0 ]; then
         return 0
