@@ -6,7 +6,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- For conciseness
-local opts = { noremap = true, silent = true }
+local opts = { noremap = true, silent = true } -- Options for keymaps
 
 -- Disable the spacebar key's default behavior in Normal and Visual modes
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
@@ -126,7 +126,7 @@ vim.keymap.set('n', '<leader>do', function()
   else
     vim.diagnostic.disable(0)
   end
-end)
+end, { desc = 'Toggle diagnostics' })
 
 -- Navigate diagnostics
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
