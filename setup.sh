@@ -153,7 +153,7 @@ install_ohmyzsh() {
 
 # Setup Zsh configuration
 setup_zsh() {
-    zshrc_source="./.zshrc"
+    zshrc_source="./zsh/.zshrc"
     zshrc_dest="$HOME/.zshrc"
 
     # Install zsh plugins
@@ -183,7 +183,7 @@ main() {
     echo -e "${GREEN}Starting WSL development environment setup...${NC}"
 
     # Array of function names to run
-    tasks=("setup_neovim")
+    tasks=("install_brew", "setup_neovim")
 
     success_count=0
     total=${#tasks[@]}
