@@ -103,7 +103,3 @@ eval "$(starship init zsh)"
 # Source Aliases
 # -------------------------------
 [ -f ~/.zsh_aliases ] && source ~/.zsh_aliases
-# -------------------------------
-# Custom Environment Variables
-# -------------------------------
-. "$HOME/.local/bin/env"
