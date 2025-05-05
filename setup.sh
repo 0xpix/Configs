@@ -87,7 +87,9 @@ run_command() {
 install_dependencies() {
     echo -e "${GREEN}Installing required packages...${NC}"
     sudo apt update
-    sudo apt install -y curl git zsh unzip dos2unix fontconfig ripgrep fd-find lua5.1 luarocks nodejs npm python3 python3-pip
+    sudo apt install -y curl git zsh unzip dos2unix fontconfig ripgrep fd-find lua5.1 luarocks nodejs npm python3 python3-pip pipx
+    pipx ensurepath
+    pipx install ruff
     return $?
 }
 
@@ -126,18 +128,18 @@ setup_neovim() {
     copy_directory "$lua_source_dir" "$lua_dest_dir"
     lua_copied=$?
 
-    # Open Neovim to install plugins
-    if [ $init_copied -eq 0 ] && [ $lua_copied -eq 0 ]; then
-        echo -e "${GREEN}Opening Neovim to install plugins...${NC}"
-        # Run headless Neovim to initialize lazy.nvim
-        run_command "nvim --headless -c 'lua require(\"lazy\").sync()' -c 'qa!'" "Installing Neovim plugins headlessly"
+    # # Open Neovim to install plugins
+    # if [ $init_copied -eq 0 ] && [ $lua_copied -eq 0 ]; then
+    #     echo -e "${GREEN}Opening Neovim to install plugins...${NC}"
+    #     # Run headless Neovim to initialize lazy.nvim
+    #     run_command "nvim --headless -c 'lua require(\"lazy\").sync()' -c 'qa!'" "Installing Neovim plugins headlessly"
 
-        echo -e "${GREEN}Neovim configuration setup completed successfully.${NC}"
-        return 0
-    else
-        echo -e "${RED}Failed to copy Neovim configuration files.${NC}"
-        return 1
-    fi
+    #     echo -e "${GREEN}Neovim configuration setup completed successfully.${NC}"
+    #     return 0
+    # else
+    #     echo -e "${RED}Failed to copy Neovim configuration files.${NC}"
+    #     return 1
+    # fi
 }
 
 # Setup VSCode configuration
