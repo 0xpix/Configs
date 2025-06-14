@@ -1,0 +1,57 @@
+#[Fonts]
+font-family-bold = "JetBrainsMonoNL NF Bold"
+font-size = 16
+font-feature = liga
+
+#[Theme]
+#theme = light:AtomOneLight,dark:Dracula+
+theme = catppuccin-mocha
+
+#[Keybindings]
+keybind = ctrl+r=reload_config
+keybind = ctrl+v=new_split:right
+keybind = ctrl+h=new_split:down
+keybind = ctrl+z=close_surface
+keybind = global:cmd+s=toggle_quick_terminal
+keybind = shift+ctrl+left_bracket=previous_tab
+keybind = shift+ctrl+right_bracket=next_tab
+keybind = shift+ctrl+,=move_tab:-1
+keybind = shift+ctrl+.=move_tab:+1
+
+#[Cursor]
+cursor-style = block
+cursor-style-blink = true	
+
+#[Clipboard]
+copy-on-select = clipboard
+clipboard-trim-trailing-spaces = true
+
+#[Mouse]
+mouse-scroll-multiplier = 2
+mouse-hide-while-typing = true
+click-repeat-interval = 500
+
+#[Opacity]
+# background-opacity = 0.95
+
+#[Window]
+initial-window = true
+resize-overlay = never
+window-save-state = always
+window-step-resize = false
+background-blur-radius = 15
+window-padding-balance = true
+confirm-close-surface = false
+quit-after-last-window-closed = true
+
+#[Behavior]
+auto-update = check
+auto-update-channel = stable
+quit-after-last-window-closed = true
+shell-integration-features = true
+
+#[Misc]
+shell-integration-features = no-cursor,sudo,no-title
+confirm-close-surface = false
+auto-update-channel = stable
+command = /usr/bin/zsh
