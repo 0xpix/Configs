@@ -1,0 +1,25 @@
+# --------------------------------------------------- // System
+python-requests|wttrbar                                # script dependency
+ddcui                                                  # GUI to control brightness for external monitors
+power-profiles-daemon                                  # for managing power profiles from waybar
+
+# --------------------------------------------------- // Shell
+
+
+# --------------------------------------------------- // Misc
+xdg-desktop-portal-gtk                                 # xdg desktop portal using gtk
+wf-recorder                                            # Screen recorder for wlroots-based compositors such as sway
+
+# --------------------------------------------------- // Gaming
+steam                                                  # gaming platform
+gamemode                                               # daemon and library for game optimizations
+mangohud                                               # system performance overlay
+
+# --------------------------------------------------- // Music
+spotify-launcher                                       # proprietary music streaming service
+
+# --------------------------------------------------- // Lockscreen
+swaylock-effects-git                                   # swaylock with effects // very minimal lockscreen
+
+# --------------------------------------------------- // OSD
+swayosd-git                                             # A GTK based on screen display for keyboard shortcuts like caps-lock and volume
