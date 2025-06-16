@@ -5,18 +5,18 @@
   "logo": {
     "source": "\"$(fastfetch.sh logo)\"",
     "type": "kitty",
-    "height": 13,
-    "width": 26,
+    "height": 8,
+    "width": 16,
     "padding": {
       "top": 5,
-      "left": 3
-    }
+      "left": 3,
+    },
   },
   "display": {
     "color": {
-      "separator": "blue"
+      "separator": "blue",
     },
-    "separator": " | "
+    "separator": " | ",
   },
   "modules": [
     "break",
@@ -24,33 +24,33 @@
     {
       "type": "kernel",
       "key": "    HyDE    ",
-      "keyColor": "magenta"
+      "keyColor": "magenta",
     },
     {
       "type": "custom",
       "format": ">-----------<+>------------------------------------------<",
-      "outputColor": "separator"
+      "outputColor": "separator",
     },
     {
       "type": "host",
       "key": "  MRB      ",
-      "keyColor": "cyan"
+      "keyColor": "cyan",
     },
     {
       "type": "memory",
       "key": "  RAM      ",
-      "keyColor": "cyan"
+      "keyColor": "cyan",
     },
     {
       "type": "cpu",
       "key": "󰍛  CPU      ",
       "showPeCoreCount": true,
-      "keyColor": "cyan"
+      "keyColor": "cyan",
     },
     {
       "type": "gpu",
       "key": "󰍛  GPU      ",
-      "keyColor": "cyan"
+      "keyColor": "cyan",
       //      "text": "lspci | grep -i vga | awk -F': | \\\\[|\\\\]' '{print $2 \" [\" $3 \"]\"}'"
     },
     //    {
@@ -61,67 +61,67 @@
     {
       "type": "custom",
       "format": ">-----------<+>------------------------------------------<",
-      "outputColor": "separator"
+      "outputColor": "separator",
     },
     {
       "type": "wmtheme",
       "key": "󰉼  Theme    ",
-      "keyColor": "green"
+      "keyColor": "green",
     },
     {
       "type": "shell",
       "key": "  Shell    ",
-      "keyColor": "green"
+      "keyColor": "green",
     },
     {
       "type": "wm",
       "key": "  Session  ",
-      "keyColor": "green"
+      "keyColor": "green",
     },
     {
       "type": "terminal",
       "key": "  Terminal ",
-      "keyColor": "green"
+      "keyColor": "green",
     },
     {
       "type": "de",
       "key": "  Desktop  ",
-      "keyColor": "green"
+      "keyColor": "green",
     },
     {
       "type": "packages",
       "key": "󰏖  Packages ",
-      "keyColor": "green"
+      "keyColor": "green",
     },
     {
       "type": "gpu",
       "key": "󰍛  G-Driver ",
       "format": "{3}",
-      "keyColor": "green"
+      "keyColor": "green",
     },
     {
       "type": "custom",
       "format": ">-----------<+>------------------------------------------<",
-      "outputColor": "separator"
+      "outputColor": "separator",
     },
     {
       "type": "disk",
       "key": "󰅐  OS Age   ",
       "keyColor": "blue",
       "folders": "/",
-      "format": "{days} days"
+      "format": "{days} days",
     },
     {
       "type": "uptime",
       "key": "󰅐  Uptime   ",
-      "keyColor": "blue"
+      "keyColor": "blue",
     },
     {
       "type": "custom",
       "format": ">-----------<+>------------------------------------------<",
-      "outputColor": "separator"
+      "outputColor": "separator",
     },
     "break",
-    "break"
-  ]
+    "break",
+  ],
 }
