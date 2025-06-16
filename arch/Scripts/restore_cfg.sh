@@ -2,6 +2,7 @@
 # shellcheck disable=SC2154
 # shellcheck disable=SC1091
 
+
 deploy_list() {
 
     while read -r lst; do
@@ -171,7 +172,9 @@ if ! source "${scrDir}/global_fn.sh"; then
     exit 1
 fi
 
+[ -f "${scrDir}/restore_cfg.lst" ] && defaultLst="restore_cfg.lst"
 [ -f "${scrDir}/restore_cfg.psv" ] && defaultLst="restore_cfg.psv"
+[ -f "${scrDir}/restore_cfg.json" ] && defaultLst="restore_cfg.json"
 [ -f "${scrDir}/${USER}-restore_cfg.psv" ] && defaultLst="$USER-restore_cfg.psv"
 
 CfgLst="${1:-"${scrDir}/${defaultLst}"}"
