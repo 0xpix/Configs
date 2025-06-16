@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Check if the script is being sourced
 
 set -e
 
