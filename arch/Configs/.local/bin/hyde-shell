@@ -16,7 +16,7 @@ PATH="$BIN_DIR:$LIB_DIR/hyde:$PATH" #! I added this to the PATH to make sure tha
 export BIN_DIR LIB_DIR SHARE_DIR
 
 # shellcheck disable=SC1091
-if ! source "${LIB_DIR}/hyde/globalcontrol.sh"; then
+if ! source "${LIB_DIR}/hyde/system/globalcontrol.sh"; then
     echo "Error: Could not load HyDE, broken installation?"
     exit 1
 fi
