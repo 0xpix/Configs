@@ -3,7 +3,7 @@
 # Early load to maintain fastfetch speed
 if [ -z "${*}" ]; then
   clear
-  exec fastfetch --logo-type kitty
+  exec fastfetch --logo-type ghostty
   exit
 fi
 
